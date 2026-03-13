@@ -908,7 +908,7 @@ const nav=document.getElementById('navbar');
 window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>50));
 
 /* COUNTDOWN */
-const target=new Date('2026-04-12T08:00:00');
+const target=new Date('2026-03-17T08:00:00');
 function tick(){
   const d=target-new Date();
   if(d<=0){['days','hours','minutes','seconds'].forEach(id=>document.getElementById(id).textContent='00');return;}
