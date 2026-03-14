@@ -313,6 +313,44 @@ footer{background:var(--dark);border-top:1px solid var(--muted);padding:48px 5% 
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.16,1,.3,1);}
 .reveal.visible{opacity:1;transform:none;}
 .sport-card:nth-child(1){transition-delay:.05s;}.sport-card:nth-child(2){transition-delay:.10s;}.sport-card:nth-child(3){transition-delay:.15s;}.sport-card:nth-child(4){transition-delay:.20s;}.sport-card:nth-child(5){transition-delay:.25s;}.sport-card:nth-child(6){transition-delay:.30s;}.sport-card:nth-child(7){transition-delay:.35s;}.sport-card:nth-child(8){transition-delay:.40s;}.sport-card:nth-child(9){transition-delay:.45s;}.sport-card:nth-child(10){transition-delay:.50s;}
+
+/* ═══════════════════ MODAL ═══════════════════ */
+.modal-overlay{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,0);backdrop-filter:blur(0px);pointer-events:none;transition:background .35s ease,backdrop-filter .35s ease;}
+.modal-overlay.open{background:rgba(0,0,0,.75);backdrop-filter:blur(8px);pointer-events:all;}
+.modal-box{position:relative;background:var(--panel);border:1px solid var(--muted);padding:0;
+  width:clamp(300px,90vw,480px);transform:translateY(40px) scale(.95);opacity:0;
+  transition:transform .35s cubic-bezier(.16,1,.3,1),opacity .35s ease;overflow:hidden;}
+.modal-overlay.open .modal-box{transform:translateY(0) scale(1);opacity:1;}
+.modal-top{background:linear-gradient(135deg,var(--crimson),#7A000F);padding:36px 32px 28px;position:relative;}
+.modal-top::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent,transparent 20px,rgba(255,255,255,.03) 20px,rgba(255,255,255,.03) 21px);}
+.modal-icon{font-size:3rem;display:block;margin-bottom:10px;position:relative;z-index:1;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:.06em;color:#fff;
+  position:relative;z-index:1;line-height:1;}
+.modal-format{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55);
+  margin-top:6px;position:relative;z-index:1;}
+.modal-body{padding:28px 32px 32px;}
+.modal-desc{font-size:.9rem;color:var(--silver);line-height:1.75;margin-bottom:28px;}
+.modal-close{position:absolute;top:14px;right:16px;background:rgba(0,0,0,.25);border:none;
+  color:rgba(255,255,255,.7);font-size:1.1rem;width:30px;height:30px;border-radius:50%;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;
+  transition:background .2s,color .2s;}
+.modal-close:hover{background:rgba(0,0,0,.5);color:#fff;}
+.modal-register-btn{display:block;width:100%;padding:16px 24px;
+  background:linear-gradient(90deg,var(--crimson),#7A000F);
+  color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:.15em;
+  text-align:center;text-decoration:none;border:none;cursor:pointer;
+  position:relative;overflow:hidden;transition:opacity .2s,transform .15s;}
+.modal-register-btn::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);
+  transform:translateX(-100%);transition:transform .5s ease;}
+.modal-register-btn:hover{opacity:.9;transform:translateY(-1px);}
+.modal-register-btn:hover::before{transform:translateX(100%);}
+.modal-no-form{font-size:.8rem;color:var(--silver);opacity:.5;text-align:center;padding:12px 0;
+  letter-spacing:.1em;text-transform:uppercase;}
+.sport-card{cursor:pointer;}
+.sport-card:hover .sport-name{color:var(--gold);}
+
 </style>
 </head>
 <body>
@@ -929,6 +967,119 @@ for(let i=0;i<90;i++)pts.push({x:Math.random()*innerWidth,y:Math.random()*innerH
   }});
   requestAnimationFrame(draw);
 })();
+
+
+/* ═══════════════════════════════════════════════════════
+   EVENT CARD MODALS
+═══════════════════════════════════════════════════════ */
+const EVENT_DATA = [
+  {
+    num:'01', icon:'⚽', name:'Football', format:'7+4 A Side',
+    desc:'10–5–10 format. Fast-paced, high-intensity field battles. The field belongs to the brave — form your team, register, and claim the pitch.',
+    form:'https://docs.google.com/forms/d/e/1FAIpQLSebYckGZPCXhHlQfHhKLc2Hs_wcx9gbfd1VH5kuLVhfRJujBg/viewform'
+  },
+  {
+    num:'02', icon:'🏏', name:'Cricket', format:'5 Overs Each',
+    desc:'Shorthand cricket at its finest. Every ball counts. Every run is a statement. Register your team and step onto the crease.',
+    form:'https://docs.google.com/forms/d/e/1FAIpQLSdeTbunruGs7C2SsnFF-OohGrEw70919hxAmL88N86gVGUE7A/viewform'
+  },
+  {
+    num:'03', icon:'🏸', name:'Badminton', format:'Singles & Doubles',
+    desc:'Smash, drop, rally — the shuttle never lies. Champions rise here. Register for singles or doubles and take the court.',
+    form:'https://docs.google.com/forms/d/e/1FAIpQLSdiDd7W_vVavfsmeuXgOv9LoI-D8tocC55rABwsANHl1VJM6w/viewform'
+  },
+  {
+    num:'04', icon:'🏓', name:'Table Tennis', format:'Knock-out Rounds',
+    desc:'Lightning reflexes. Razor-sharp focus. The table never forgives mistakes. Register and prove your precision.',
+    form:'https://docs.google.com/forms/d/e/1FAIpQLSdPfC5NuDoh9YMJZBljqb7hfaTqzTw1Sl6wDkOULZ09tY4xZA/viewform'
+  },
+  {
+    num:'05', icon:'🎲', name:'Carrom', format:'Board Singles',
+    desc:'Precision and patience. Every flick is a calculated move. Register and show your mastery of the board.',
+    form:'https://docs.google.com/forms/d/e/1FAIpQLScOq2BC1EhoZob7i8yV5IRmOQWoS3g188-VAgjCD9QIVEJZrQ/viewform'
+  },
+  {
+    num:'06', icon:'♟️', name:'Chess', format:'Rapid Format',
+    desc:'The mind's greatest sport. Outwit, outmanoeuvre, outlast. Register and bring your A-game to the board.',
+    form:'https://docs.google.com/forms/d/e/1FAIpQLSdNSgxrCIk-GyPzzMl_ywp2oOC1T_PpVWjLqCNhH8LBIMjjlg/viewform'
+  },
+  {
+    num:'07', icon:'🏆', name:'Kabaddi', format:'Team Format',
+    desc:'Raid, tackle, survive. Raw power meets tactical brilliance. Register your team for one of India's most primal team sports.',
+    form:'https://docs.google.com/forms/d/e/1FAIpQLSexMT30RxMQizTaWZzHFa478XLlQkBJG6AtKMkBHjXYHN_5OA/viewform'
+  },
+  {
+    num:'08', icon:'💪', name:'Tug of War', format:'Team Pulls',
+    desc:'Strength, unity, grip. One rope — two teams — one winner. No excuses. Register your team and pull for glory.',
+    form:'https://docs.google.com/forms/d/e/1FAIpQLSdRo8ZYOw65uvBMi7Pse_QwKr3Ybx-62fFHQU2mAZJaR5CGFg/viewform'
+  },
+  {
+    num:'09', icon:'🃏', name:'Cards', format:'Classic Format',
+    desc:'Strategy, bluff, and instinct. The deck rewards the sharp mind. Register and play your hand.',
+    form:'https://docs.google.com/forms/d/e/1FAIpQLScRBnExVyJuXOxJYhQ5xVBAfAbuh-L0_kLjptevskONrwQhvQ/viewform'
+  },
+  {
+    num:'+', icon:'🔥', name:'More Events', format:'Stay Tuned',
+    desc:'More surprises await. The Chemathlon roster keeps growing. Watch this space for upcoming event announcements!',
+    form:null
+  }
+];
+
+const modal   = document.getElementById('eventModal');
+const mIcon   = document.getElementById('modalIcon');
+const mTitle  = document.getElementById('modalTitle');
+const mFormat = document.getElementById('modalFormat');
+const mDesc   = document.getElementById('modalDesc');
+const mAction = document.getElementById('modalAction');
+const mClose  = document.getElementById('modalClose');
+
+function openModal(data) {
+  mIcon.textContent   = data.icon;
+  mTitle.textContent  = data.name;
+  mFormat.textContent = data.format;
+  mDesc.textContent   = data.desc;
+  if (data.form) {
+    mAction.innerHTML = `<a class="modal-register-btn" href="${data.form}" target="_blank" rel="noopener">REGISTER NOW →</a>`;
+  } else {
+    mAction.innerHTML = `<div class="modal-no-form">Registrations Opening Soon</div>`;
+  }
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Attach click to each sport card by index
+document.querySelectorAll('.sport-card').forEach((card, i) => {
+  card.addEventListener('click', () => {
+    if (EVENT_DATA[i]) openModal(EVENT_DATA[i]);
+  });
+});
+
+mClose.addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
 </script>
+
+<!-- EVENT MODAL -->
+<div class="modal-overlay" id="eventModal">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose">&#x2715;</button>
+    <div class="modal-top">
+      <span class="modal-icon" id="modalIcon"></span>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-format" id="modalFormat"></div>
+    </div>
+    <div class="modal-body">
+      <p class="modal-desc" id="modalDesc"></p>
+      <div id="modalAction"></div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
